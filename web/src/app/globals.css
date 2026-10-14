@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+:root {
+  --cream: #f7f2eb;
+  --cream-deep: #efe6da;
+  --ink: #1d1a24;
+  --ink-soft: #57516a;
+  --line: #e2d8ca;
+  --plum: #3b2a6b;
+  --plum-deep: #1b1530;
+  --dusk: #e9a58f;
+  --moon: #e6c98d;
+  --sage: #7d9b8a;
+  --danger: #b4321f;
+}
+
+@theme inline {
+  --color-cream: var(--cream);
+  --color-cream-deep: var(--cream-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-plum: var(--plum);
+  --color-plum-deep: var(--plum-deep);
+  --color-dusk: var(--dusk);
+  --color-moon: var(--moon);
+  --color-sage: var(--sage);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-instrument);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--plum);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.on-dark :focus-visible {
+  outline-color: var(--moon);
+}
+
+/* Frosted panel used on phones, in the server render, and wherever WebGL2 is missing. */
+.glass {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 24px 48px -24px rgba(8, 4, 24, 0.6);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+/* Hold panel contents back while a liquid surface forms in, then fade them in. */
+[data-plasma-forming] > * {
+  opacity: 0;
+  transition: none;
+}
+.liquid-panel > * {
+  transition: opacity 180ms ease-out;
+}
+
+.dusk-field {
+  background:
+    radial-gradient(60% 70% at 85% 20%, rgba(233, 165, 143, 0.55), transparent 70%),
+    radial-gradient(50% 60% at 15% 85%, rgba(125, 155, 138, 0.35), transparent 70%),
+    linear-gradient(160deg, #1b1530 0%, #3b2a6b 55%, #6b3f6e 100%);
+}

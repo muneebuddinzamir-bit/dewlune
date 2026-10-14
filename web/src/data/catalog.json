@@ -1,0 +1,115 @@
+{
+  "concerns": [
+    { "slug": "hydration", "name": "Hydration", "blurb": "For skin that feels tight or looks dull by midday." },
+    { "slug": "brightening", "name": "Brightening", "blurb": "For uneven tone and a tired-looking complexion." },
+    { "slug": "acne-care", "name": "Acne care", "blurb": "For congested pores and frequent breakouts." },
+    { "slug": "barrier-repair", "name": "Barrier repair", "blurb": "For sensitive, easily irritated skin." },
+    { "slug": "sun-care", "name": "Sun care", "blurb": "Daily protection for Pakistani summers." }
+  ],
+  "products": [
+    {
+      "slug": "moonmilk-gentle-cleanser",
+      "name": "Moonmilk Gentle Cleanser",
+      "tagline": "A milky, low-foam wash that leaves skin soft, not squeaky.",
+      "price": 185000,
+      "regularPrice": 185000,
+      "size": "150 ml",
+      "concerns": ["barrier-repair", "hydration"],
+      "description": "A creamy gel cleanser with oat extract and glycerin. It lifts sunscreen, sweat and everyday grime while keeping the skin's moisture in place, so your face never feels stripped after washing.",
+      "keyIngredients": ["Oat extract", "Glycerin", "Panthenol"],
+      "howToUse": "Massage a small amount onto damp skin for 30 seconds, morning and night. Rinse with lukewarm water.",
+      "art": { "shape": "pump", "body": "#f3ece4", "accent": "#b9a6d9", "label": "CLEANSER" }
+    },
+    {
+      "slug": "dewdrop-hyaluronic-serum",
+      "name": "Dewdrop Hyaluronic Serum",
+      "tagline": "Layered hyaluronic acid for plump, bouncy skin.",
+      "price": 295000,
+      "regularPrice": 295000,
+      "size": "30 ml",
+      "concerns": ["hydration"],
+      "description": "Three sizes of hyaluronic acid draw water into different layers of the skin, with a touch of B5 to keep it there. Light enough for oily skin and humid weather.",
+      "keyIngredients": ["Hyaluronic acid (3 weights)", "Vitamin B5", "Aloe water"],
+      "howToUse": "Press 3-4 drops onto damp skin after cleansing, then follow with moisturizer.",
+      "art": { "shape": "dropper", "body": "#cfe3ef", "accent": "#5b8fb0", "label": "HYALURONIC" }
+    },
+    {
+      "slug": "nightbloom-niacinamide-serum",
+      "name": "Nightbloom Niacinamide 10%",
+      "tagline": "Calms oil and refines the look of pores.",
+      "price": 265000,
+      "regularPrice": 289000,
+      "size": "30 ml",
+      "concerns": ["acne-care", "brightening"],
+      "description": "10% niacinamide with 1% zinc helps balance oil, soften the look of enlarged pores and even out post-breakout marks over time.",
+      "keyIngredients": ["Niacinamide 10%", "Zinc PCA 1%", "Green tea"],
+      "howToUse": "Apply 3 drops to the whole face, morning or night, before heavier creams.",
+      "art": { "shape": "dropper", "body": "#e7dcf2", "accent": "#7a5ba8", "label": "NIACINAMIDE" }
+    },
+    {
+      "slug": "lunar-glow-vitamin-c-serum",
+      "name": "Lunar Glow Vitamin C",
+      "tagline": "A stable vitamin C serum for a brighter, even tone.",
+      "price": 325000,
+      "regularPrice": 325000,
+      "size": "30 ml",
+      "concerns": ["brightening"],
+      "description": "Ethyl ascorbic acid, a stable form of vitamin C, with ferulic acid and vitamin E. Brightens dullness and helps fade the look of dark spots with regular morning use.",
+      "keyIngredients": ["Ethyl ascorbic acid 15%", "Ferulic acid", "Vitamin E"],
+      "howToUse": "Use 3-4 drops every morning before moisturizer. Always follow with sunscreen.",
+      "art": { "shape": "dropper", "body": "#f6dcc4", "accent": "#d8814f", "label": "VITAMIN C" }
+    },
+    {
+      "slug": "cloudsoft-ceramide-moisturizer",
+      "name": "Cloudsoft Ceramide Cream",
+      "tagline": "A whipped cream that rebuilds a stressed barrier.",
+      "price": 275000,
+      "regularPrice": 275000,
+      "size": "50 ml",
+      "concerns": ["barrier-repair", "hydration"],
+      "description": "Three essential ceramides, cholesterol and squalane in a cloud-light texture. Soothes redness and dryness without feeling heavy.",
+      "keyIngredients": ["Ceramide NP, AP, EOP", "Squalane", "Centella"],
+      "howToUse": "Smooth a pea-sized amount over face and neck as the last step at night, or before sunscreen in the morning.",
+      "art": { "shape": "jar", "body": "#f1eef6", "accent": "#9a8bc0", "label": "CERAMIDE" }
+    },
+    {
+      "slug": "clearsky-salicylic-toner",
+      "name": "Clearsky BHA Toner",
+      "tagline": "A gentle 2% salicylic toner for clearer pores.",
+      "price": 215000,
+      "regularPrice": 215000,
+      "size": "120 ml",
+      "concerns": ["acne-care"],
+      "description": "Salicylic acid works inside the pore to clear buildup, while willow bark and allantoin keep the formula gentle enough for regular use.",
+      "keyIngredients": ["Salicylic acid 2%", "Willow bark", "Allantoin"],
+      "howToUse": "Sweep over the face with a cotton pad 3-4 evenings a week. Start slowly and increase as your skin allows.",
+      "art": { "shape": "bottle", "body": "#d6ece4", "accent": "#5f9c86", "label": "BHA TONER" }
+    },
+    {
+      "slug": "halo-sunscreen-spf-50",
+      "name": "Halo Sunscreen SPF 50",
+      "tagline": "No white cast, no grease, made for the heat.",
+      "price": 245000,
+      "regularPrice": 245000,
+      "size": "50 ml",
+      "concerns": ["sun-care"],
+      "description": "Broad-spectrum SPF 50 PA++++ in a fluid that dries to a soft, invisible finish on every skin tone. Works well under makeup.",
+      "keyIngredients": ["SPF 50 PA++++ filters", "Niacinamide", "Vitamin E"],
+      "howToUse": "Apply two finger-lengths to face and neck as the last morning step. Reapply every 2-3 hours outdoors.",
+      "art": { "shape": "tube", "body": "#fbe7c9", "accent": "#e0a24a", "label": "SPF 50" }
+    },
+    {
+      "slug": "midnight-repair-sleeping-mask",
+      "name": "Midnight Repair Mask",
+      "tagline": "An overnight mask for well-rested looking skin.",
+      "price": 345000,
+      "regularPrice": 345000,
+      "size": "75 ml",
+      "concerns": ["hydration", "barrier-repair"],
+      "description": "Peptides, bakuchiol and shea butter work while you sleep, so skin wakes up softer, smoother and more even.",
+      "keyIngredients": ["Peptide complex", "Bakuchiol", "Shea butter"],
+      "howToUse": "Two or three nights a week, apply a thin layer as your last step. Rinse off in the morning.",
+      "art": { "shape": "jar", "body": "#2f2650", "accent": "#e6c98d", "label": "NIGHT MASK" }
+    }
+  ]
+}
