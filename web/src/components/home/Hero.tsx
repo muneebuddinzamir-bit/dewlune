@@ -96,16 +96,16 @@ export function Hero({ featured, concerns }: Props) {
             </div>
           </div>
         </S>
-        <div className="flex flex-wrap gap-3 lg:gap-8">
+        <div className="flex flex-wrap gap-3 lg:gap-6 xl:gap-8">
           {concerns.map((c) => (
-            <S key={c.slug} draggable radius={22} className="px-5 py-3">
+            <S key={c.slug} radius={22} className="px-4 py-3 xl:px-5">
               <Link href={`/shop?concern=${c.slug}`} className="text-sm font-semibold" data-plasma-nodrag>
                 {c.name}
               </Link>
             </S>
           ))}
         </div>
-        {liquid && <p className="text-sm text-cream/70">Drag the cards around. They&apos;re liquid, and they merge when they touch.</p>}
+        {liquid && <p className="text-sm text-cream/70">Drag the product card. It&apos;s liquid, and it merges with whatever it touches.</p>}
       </div>
     </div>
   );

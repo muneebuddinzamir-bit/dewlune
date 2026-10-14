@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
 import { OrderSummary } from "@/components/cart/OrderSummary";
-import { isWooMode, PROVINCES, type CheckoutDetails } from "@/lib/cart";
+import { isWooMode, PROVINCES, shippingFor, type CheckoutDetails } from "@/lib/cart";
+import { formatPrice } from "@/lib/money";
 
 type Field = keyof CheckoutDetails;
 type Errors = Partial<Record<Field, string>>;
@@ -145,6 +146,27 @@ export function CheckoutForm() {
             <strong>Demo store:</strong> Dewlune is a portfolio project. Placing an order here ships nothing and charges nothing.
           </p>
         )}
+
+        {/* On phones the summary sits after the form, so show the total up front too. */}
+        <details className="group rounded-2xl bg-white px-5 py-3 lg:hidden">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 font-semibold">
+            <span>
+              Order summary{" "}
+              <span className="font-normal text-ink-soft">
+                ({cart.count} {cart.count === 1 ? "item" : "items"})
+              </span>
+            </span>
+            <span className="flex items-center gap-2 tabular-nums">
+              {formatPrice(cart.subtotal + shippingFor(cart.subtotal))}
+              <span className="text-xl transition group-open:rotate-45" aria-hidden="true">
+                +
+              </span>
+            </span>
+          </summary>
+          <div className="pt-3 pb-2">
+            <OrderSummary showLines />
+          </div>
+        </details>
 
         {visibleErrors.length > 0 && (
           <div ref={summaryRef} tabIndex={-1} role="alert" className="rounded-2xl border border-danger bg-white p-5">

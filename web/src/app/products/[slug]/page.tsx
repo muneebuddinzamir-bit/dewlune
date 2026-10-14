@@ -79,7 +79,7 @@ async function ProductDetails({ params }: { params: Params }) {
           <ul className="flex flex-wrap gap-2">
             {tags.map((t) => (
               <li key={t.slug}>
-                <Link href={`/shop?concern=${t.slug}`} className="inline-flex min-h-9 items-center rounded-full bg-cream-deep px-3 text-xs font-semibold hover:bg-line">
+                <Link href={`/shop?concern=${t.slug}`} className="inline-flex min-h-11 items-center rounded-full bg-cream-deep px-4 text-xs font-semibold hover:bg-line">
                   {t.name}
                 </Link>
               </li>
