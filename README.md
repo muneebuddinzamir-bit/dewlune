@@ -2,6 +2,8 @@
 
 A skincare storefront built with **Next.js 16**, **Plasma UI** liquid-glass components and a **headless WooCommerce** backend. Products, cart and checkout come from WordPress through the WooCommerce Store API, while the shopping experience is a fast React front end.
 
+**Live demo: [dewlune.vercel.app](https://dewlune.vercel.app)** (runs on the bundled demo catalog)
+
 Dewlune is a fictional brand made for my portfolio. No real orders are shipped.
 
 ![Dewlune home page with liquid glass hero](docs/home-desktop.jpg)
