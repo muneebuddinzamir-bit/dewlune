@@ -8,6 +8,7 @@ import { ProductImage } from "@/components/ProductImage";
 import { FREE_SHIPPING_FROM } from "@/lib/cart";
 import { getCatalog, getProduct } from "@/lib/catalog";
 import { formatPrice } from "@/lib/money";
+import { siteUrl } from "@/lib/site";
 
 export async function generateStaticParams() {
   const { products } = await getCatalog();
@@ -54,8 +55,25 @@ async function ProductDetails({ params }: { params: Params }) {
   const tags = concerns.filter((c) => product.concerns.includes(c.slug));
   const related = products.filter((p) => p.slug !== product.slug && p.concerns.some((c) => product.concerns.includes(c))).slice(0, 4);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.tagline,
+    brand: { "@type": "Brand", name: "Dewlune" },
+    ...(product.image ? { image: product.image.src } : {}),
+    offers: {
+      "@type": "Offer",
+      url: `${siteUrl}/products/${product.slug}`,
+      priceCurrency: "PKR",
+      price: (product.price / 100).toFixed(0),
+      availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    },
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <nav aria-label="Breadcrumb" className="text-sm text-ink-soft">
         <ol className="flex flex-wrap gap-2">
           <li>
@@ -112,8 +130,28 @@ async function ProductDetails({ params }: { params: Params }) {
               inStock={product.inStock}
             />
           </div>
-          <p className="mt-4 text-sm text-ink-soft">
-            Free delivery over {formatPrice(FREE_SHIPPING_FROM)} · Cash on delivery · Ships in 2-4 working days
+          <ul className="mt-6 grid gap-3 rounded-2xl border border-line bg-white p-4 text-sm sm:grid-cols-3">
+            {[
+              { t: "Free delivery", s: `Over ${formatPrice(FREE_SHIPPING_FROM)}`, d: "M3 6h11v10H3zM14 9h4l3 3v4h-7" },
+              { t: "Cash on delivery", s: "Pay when it arrives", d: "M3 6h18v12H3zM9.5 12a2.5 2.5 0 1 0 5 0 2.5 2.5 0 1 0-5 0" },
+              { t: "7-day returns", s: "On unopened items", d: "M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4" },
+            ].map((b) => (
+              <li key={b.t} className="flex items-center gap-3">
+                <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0 text-plum" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d={b.d} />
+                </svg>
+                <span>
+                  <span className="block font-semibold">{b.t}</span>
+                  <span className="text-ink-soft">{b.s}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-sm text-ink-soft">
+            Ships in 2-4 working days.{" "}
+            <Link href="/delivery" className="font-semibold text-ink underline underline-offset-4">
+              Delivery &amp; returns
+            </Link>
           </p>
 
           <div className="mt-10 divide-y divide-line border-y border-line">

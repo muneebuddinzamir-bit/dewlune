@@ -74,6 +74,28 @@ body {
 .liquid-panel > * {
   transition: opacity 180ms ease-out;
 }
+/* Same box as the frosted .glass panel (1px border), so swapping them never shifts the layout. */
+.liquid-panel {
+  border: 1px solid transparent;
+}
+
+/*
+ * Plasma paints one canvas behind the whole page, so everything that is not a
+ * liquid section stays opaque. The home page lets its hero show through.
+ */
+main#main {
+  background: var(--cream);
+}
+main#main:has(.liquid-hero) {
+  background: transparent;
+}
+
+.midnight-field {
+  background:
+    radial-gradient(55% 80% at 90% 10%, rgba(230, 201, 141, 0.28), transparent 70%),
+    radial-gradient(45% 60% at 10% 90%, rgba(59, 42, 107, 0.6), transparent 70%),
+    linear-gradient(170deg, #0f0c1d 0%, #1b1530 60%, #2a1f4f 100%);
+}
 
 .dusk-field {
   background:

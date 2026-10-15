@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Manrope } from "next/font/google";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { CartProvider, type CatalogItem } from "@/components/cart/CartProvider";
-import { Footer } from "@/components/Footer";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { SiteFooter } from "@/components/footer/SiteFooter";
 import { Header } from "@/components/Header";
 import { getCatalog } from "@/lib/catalog";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -19,6 +21,7 @@ const instrument = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Dewlune | Gentle skincare for every season",
     template: "%s | Dewlune",
@@ -48,11 +51,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <CartProvider catalog={catalog}>
+          <AnnouncementBar />
           <Header />
           <main id="main" className="flex-1">
             {children}
           </main>
-          <Footer />
+          <SiteFooter />
           <CartDrawer />
         </CartProvider>
       </body>

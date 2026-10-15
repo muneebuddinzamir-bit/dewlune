@@ -1,61 +1,25 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 import { formatPrice } from "@/lib/money";
 import type { CatalogItem } from "../cart/CartProvider";
 import { ProductArt } from "../ProductArt";
-import { GlassSurface, type Surface } from "./surface";
+import { GlassSurface, type Surface } from "../liquid/surface";
+import { useLiquidGate } from "../liquid/useLiquidGate";
 
-const LiquidStage = dynamic(() => import("./LiquidStage"), { ssr: false });
+// Loaded only once the gate opens, so phones never download Plasma.
+const LiquidStage = lazy(() => import("../liquid/LiquidStage"));
 
 type Props = {
   featured: CatalogItem & { tagline: string };
   concerns: { slug: string; name: string }[];
 };
 
-function supportsWebGL2(): boolean {
-  try {
-    return Boolean(document.createElement("canvas").getContext("webgl2"));
-  } catch {
-    return false;
-  }
-}
-
 export function Hero({ featured, concerns }: Props) {
   const ref = useRef<HTMLElement>(null);
-  const [liquid, setLiquid] = useState(false);
+  const liquid = useLiquidGate(ref);
   const [stageReady, setStageReady] = useState(false);
-  const onStageReady = useCallback(() => setStageReady(true), []);
-
-  // Liquid panels only on a desktop with a mouse and WebGL2, and only while the hero is on screen.
-  useEffect(() => {
-    const section = ref.current;
-    if (!section) return;
-    const desktop = window.matchMedia("(min-width: 1024px) and (pointer: fine)");
-    const webgl = supportsWebGL2();
-    let onScreen = false;
-    const apply = () => {
-      const next = webgl && desktop.matches && onScreen;
-      setLiquid(next);
-      if (!next) setStageReady(false);
-    };
-    // The sticky header covers the top 64px, so a hero hidden behind it counts as off screen.
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        onScreen = entry.isIntersecting;
-        apply();
-      },
-      { rootMargin: "-64px 0px 0px 0px" },
-    );
-    observer.observe(section);
-    desktop.addEventListener("change", apply);
-    return () => {
-      observer.disconnect();
-      desktop.removeEventListener("change", apply);
-    };
-  }, []);
 
   const content = (S: Surface) => (
     <div className="mx-auto grid max-w-6xl items-center gap-6 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-10 lg:py-24">
@@ -111,8 +75,15 @@ export function Hero({ featured, concerns }: Props) {
   );
 
   return (
-    <section ref={ref} aria-label="Introduction" className={`on-dark relative text-cream ${liquid && stageReady ? "" : "dusk-field"}`}>
-      {liquid ? <LiquidStage bounds={ref} render={content} onReady={onStageReady} /> : content(GlassSurface)}
+    <section ref={ref} aria-label="Introduction" className={`liquid-hero on-dark relative text-cream ${liquid && stageReady ? "" : "dusk-field"}`}>
+      {liquid ? (
+        // The frosted panels stay in place while Plasma loads, so the layout never jumps.
+        <Suspense fallback={content(GlassSurface)}>
+          <LiquidStage bounds={ref} render={content} onReadyChange={setStageReady} />
+        </Suspense>
+      ) : (
+        content(GlassSurface)
+      )}
     </section>
   );
 }

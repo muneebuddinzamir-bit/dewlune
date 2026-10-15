@@ -1,34 +1,34 @@
 "use client";
 
 import { Plasma, PlasmaProvider, usePlasmaRuntime, type Mood, type Offset } from "@cruxgarden/plasma-ui";
+import { duskMood } from "./moods";
 import { useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import { GlassSurface, type Surface, type SurfaceProps } from "./surface";
-
-/** Dewlune's evening palette for the liquid field: night plum into a warm dusk glow. */
-const dusk: Mood = {
-  colors: ["#1b1530", "#3b2a6b", "#e9a58f"],
-  blend: 22,
-  spring: { stiffness: 160, damping: 15 },
-};
 
 type Props = {
   bounds: RefObject<HTMLElement | null>;
   render: (surface: Surface) => ReactNode;
-  /** Called once the renderer is mounted, so the hero can drop its CSS backdrop without a flash. */
-  onReady: () => void;
+  /** True once the renderer is drawing, false again when the stage goes away, so the section can swap its CSS backdrop without a flash. */
+  onReadyChange: (ready: boolean) => void;
+  mood?: Mood;
+  /** Snap group, so panels in different sections never latch onto each other. */
+  group?: string;
 };
 
 /**
- * Loaded only on desktop: mounts the Plasma renderer and hands the hero a
+ * Loaded only on desktop: mounts the Plasma renderer and hands a section a
  * liquid version of its panels. The renderer draws a full-viewport canvas
- * behind the page, so the hero unmounts this as soon as it scrolls away.
+ * behind the page, so sections unmount this as soon as they scroll away.
  */
-export default function LiquidStage({ bounds, render, onReady }: Props) {
-  const LiquidSurface = useCallback((props: SurfaceProps) => <LiquidPanel bounds={bounds} {...props} />, [bounds]);
+export default function LiquidStage({ bounds, render, onReadyChange, mood = duskMood, group = "hero" }: Props) {
+  const LiquidSurface = useCallback(
+    (props: SurfaceProps) => <LiquidPanel bounds={bounds} group={group} {...props} />,
+    [bounds, group],
+  );
 
   return (
     <PlasmaProvider
-      mood={dusk}
+      mood={mood}
       theme="dark"
       tint="#ffffff"
       opacity={0.05}
@@ -38,7 +38,7 @@ export default function LiquidStage({ bounds, render, onReady }: Props) {
       grain={0.5}
       maxSurfaces={8}
     >
-      <WhenRendererReady liquid={LiquidSurface} render={render} onReady={onReady} />
+      <WhenRendererReady liquid={LiquidSurface} render={render} onReadyChange={onReadyChange} />
     </PlasmaProvider>
   );
 }
@@ -48,11 +48,13 @@ export default function LiquidStage({ bounds, render, onReady }: Props) {
  * Until then (or for good, if WebGL fails) the panels stay frosted CSS, so there is
  * no blank frame and no surface registers before the renderer exists.
  */
-function WhenRendererReady({ liquid, render, onReady }: { liquid: Surface; render: Props["render"]; onReady: () => void }) {
+function WhenRendererReady({ liquid, render, onReadyChange }: { liquid: Surface; render: Props["render"]; onReadyChange: Props["onReadyChange"] }) {
   const { renderer } = usePlasmaRuntime();
   useEffect(() => {
-    if (renderer) onReady();
-  }, [renderer, onReady]);
+    if (!renderer) return;
+    onReadyChange(true);
+    return () => onReadyChange(false);
+  }, [renderer, onReadyChange]);
   return <>{render(renderer ? liquid : GlassSurface)}</>;
 }
 
@@ -106,7 +108,8 @@ function LiquidPanel({
   draggable,
   fuse = true,
   label,
-}: SurfaceProps & { bounds: RefObject<HTMLElement | null> }) {
+  group,
+}: SurfaceProps & { bounds: RefObject<HTMLElement | null>; group: string }) {
   const ref = useRef<HTMLElement>(null);
   const [offset, setOffset] = useState<Offset>();
 
@@ -127,7 +130,7 @@ function LiquidPanel({
       fuse={fuse}
       lean={draggable ? 8 : false}
       bounds={bounds}
-      group="hero"
+      group={group}
       offset={offset}
       onDragEnd={draggable ? onDragEnd : undefined}
       aria-label={label}

@@ -2,9 +2,7 @@ import Link from "next/link";
 import { Hero } from "@/components/home/Hero";
 import { ProductArt } from "@/components/ProductArt";
 import { ProductCard } from "@/components/ProductCard";
-import { FREE_SHIPPING_FROM } from "@/lib/cart";
 import { getCatalog } from "@/lib/catalog";
-import { formatPrice } from "@/lib/money";
 
 const ritual = [
   { step: "01", title: "Cleanse", text: "Wash away sunscreen and city dust without stripping your skin.", slug: "moonmilk-gentle-cleanser" },
@@ -35,17 +33,6 @@ export default async function Home() {
 
       {/* Everything below the hero is opaque: the liquid renderer paints behind the whole viewport. */}
       <div className="bg-cream">
-        <ul className="mx-auto grid max-w-6xl gap-px overflow-hidden border-b border-line px-4 text-sm sm:grid-cols-3 sm:px-6">
-          {[
-            `Free delivery over ${formatPrice(FREE_SHIPPING_FROM)}`,
-            "Cash on delivery nationwide",
-            "Light textures for humid weather",
-          ].map((t) => (
-            <li key={t} className="py-4 text-center font-medium text-ink-soft">
-              {t}
-            </li>
-          ))}
-        </ul>
 
         <section id="concerns" aria-labelledby="concerns-title" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-20 sm:px-6">
           <div className="flex flex-wrap items-end justify-between gap-4">

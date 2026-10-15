@@ -6,6 +6,8 @@ Dewlune is a fictional brand made for my portfolio. No real orders are shipped.
 
 ![Dewlune home page with liquid glass hero](docs/home-desktop.jpg)
 
+![Liquid glass footer with newsletter and trust panels](docs/footer-desktop.jpg)
+
 | Shop | Product | Mobile |
 |---|---|---|
 | ![Shop page with concern filters](docs/shop-desktop.jpg) | ![Product page](docs/product-desktop.jpg) | ![Home page on a phone](docs/home-mobile.jpg) |
@@ -14,9 +16,11 @@ Dewlune is a fictional brand made for my portfolio. No real orders are shipped.
 
 - **Catalog from WooCommerce:** products, prices, sale prices, categories, attributes (size, key ingredients, how to use) and images are read from the Store API.
 - **Real cart and checkout:** add, update and remove items, then place a cash-on-delivery order that lands in WooCommerce admin as a normal order.
-- **Liquid hero:** the home page panels are rendered in WebGL with [Plasma UI](https://github.com/cruxgarden/plasma-ui). They refract the background, can be dragged, and merge when they touch.
+- **Liquid hero and footer:** panels rendered in WebGL with [Plasma UI](https://github.com/cruxgarden/plasma-ui). They refract the background, and the hero's product card can be dragged and merges with what it touches.
 - **Shop by concern:** filter by hydration, brightening, acne care and more, and sort by price.
 - **Free-delivery meter:** the bag shows how far you are from free delivery (Rs 5,000). WooCommerce is configured with the same rule.
+- **Store essentials:** announcement bar, delivery & returns page with FAQ, brand story page, newsletter sign-up and trust badges.
+- **SEO:** product structured data (JSON-LD), sitemap, robots rules and per-page metadata.
 - **Demo mode:** with no backend configured, the store runs on bundled demo data, so it can be deployed anywhere for free.
 
 ## How it works
@@ -26,7 +30,7 @@ Browser ──► Next.js (App Router, Cache Components)
               ├─ pages: catalog fetched with "use cache", prerendered, revalidated every minute
               ├─ /api/cart, /api/checkout: server routes that call the Store API
               │     └─ keeps WooCommerce's Cart-Token in an httpOnly cookie
-              └─ Plasma UI hero: loaded only on desktop, unloaded when scrolled away
+              └─ Plasma UI hero + footer: desktop only, one canvas at a time
                         │
                         ▼
             WordPress + WooCommerce (Docker)
@@ -38,7 +42,7 @@ Browser ──► Next.js (App Router, Cache Components)
 ### Decisions worth mentioning
 
 - **The browser never talks to WordPress.** Cart calls go through Next.js route handlers, which keep the guest Cart-Token in an httpOnly cookie. No CORS setup and no token in JavaScript.
-- **Plasma UI only where it makes sense.** The library draws a full-screen WebGL canvas and is heavy on phones. The hero loads it only on desktop with a mouse and WebGL2, unmounts it once the hero scrolls out of view, and shows CSS frosted glass everywhere else. Phones never download the Plasma code.
+- **Plasma UI only where it makes sense.** The library draws a full-screen WebGL canvas and is heavy on phones. The hero and footer load it only on desktop with a mouse and WebGL2, and a small lock makes sure only the section on screen owns the canvas: scroll down and the hero hands it to the footer. Everywhere else, and while Plasma loads, the same panels render as CSS frosted glass, so the layout never shifts. Phones never download the Plasma code.
 - **Address rules live in WordPress.** WooCommerce requires a postal code for Pakistan by default. A small must-use plugin makes it optional and labels the state field "Province". The Store API validates against these rules, so the headless checkout and the classic checkout always agree.
 - **Accessibility:** keyboard-friendly bag drawer (native `<dialog>`), skip link, visible focus, an error summary on checkout that links to each field, and 44px touch targets.
 
