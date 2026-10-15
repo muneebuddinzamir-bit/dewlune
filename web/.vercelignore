@@ -1,0 +1,5 @@
+# Keep local settings out of deployments: without WC_STORE_URL the store runs in demo mode.
+.env*
+!.env.example
+.next
+node_modules
